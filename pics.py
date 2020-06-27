@@ -16,6 +16,13 @@ for i in range(len(A)):
             new_A[i][j]=1
 
 
-print(new_A, len(new_A))
+#print(new_A, len(new_A))
+shape = new_A.shape
+flat_arr = new_A.ravel()
+a = new_A
+vector = np.matrix(flat_arr)
+arr2 = np.asarray(vector).reshape(shape)
+# make a 1-dimensional view of arr
 
-plt.imsave('filename.png', np.array(new_A), cmap=cm.gray)
+
+plt.imsave('filename1.jpeg',arr2, cmap=cm.gray)
