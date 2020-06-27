@@ -19,7 +19,7 @@ for i in range(len(A)):
 #print(new_A, len(new_A))
 shape = new_A.shape
 flat_arr = new_A.ravel()
-a = new_A
+print(flat_arr)
 vector = np.matrix(flat_arr)
 arr2 = np.asarray(vector).reshape(shape)
 # make a 1-dimensional view of arr
