@@ -2,6 +2,10 @@ import sys
 sys.path.append("../../qiskit-sdk-py/")
 from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
 import math
+from qiskit import(
+  QuantumCircuit,
+  execute,
+  Aer)
 
 from qiskit import IBMQ
 
@@ -30,8 +34,10 @@ for j in range(16):
     qc.measure(qr[j], cr[j])
 
 # run and get results
-results = qp.execute(["smiley_writer"], backend='ibmqx5', shots=1024, silent=False)
-stats = results.get_counts("smiley_writer")
+simulator = Aer.get_backend('qasm_simulator')
+job = execute(qc, simulator, shots=1024)
+results = job.result()
+stats = results.get_counts(qc)
 characterDict = {}
 for bitString in stats: # loop over all results
     char1 = chr(int( bitString[0:8] ,2)) # get string of leftmost 8 bits an convert to an ASCII character
