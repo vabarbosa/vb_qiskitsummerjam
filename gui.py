@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk
 
+
 TITLE = "Quantum CV"
 HEIGHT = 400
 WIDTH = 700
@@ -10,6 +11,16 @@ BROWSE_BUTTON_TEXT_2 = "Browse for image 2"
 RUN_BUTTON_TEXT = "Run"
 IMAGE_ENTRY_TEXT_1 = "Type in image 1's directory or use the browse button above"
 IMAGE_ENTRY_TEXT_2 = "Type in image 2's directory or use the browse button above"
+
+
+def clear_search1(event): 
+    if (image_entry_1.get() == IMAGE_ENTRY_TEXT_1):
+        image_entry_1.delete(0, "end")
+        return None
+def clear_search2(event): 
+     if (image_entry_2.get() == IMAGE_ENTRY_TEXT_2):
+        image_entry_2.delete(0, "end")
+        return None
 
 root = tk.Tk()
 root.resizable(False, False)
@@ -30,9 +41,11 @@ label_1.place(relheight=0.1, relx=0.02, rely = .03, anchor = "nw")
 image_entry_1 = tk.Entry(frame_1)
 image_entry_1.insert(0, IMAGE_ENTRY_TEXT_1)
 image_entry_1.place(relwidth = .9, relheight = .2, relx = .05, rely = .4, anchor = 'sw')
+image_entry_1.bind("<Button-1>", clear_search1)
 image_entry_2 = tk.Entry(frame_1)
 image_entry_2.insert(0, IMAGE_ENTRY_TEXT_2)
 image_entry_2.place(relwidth = .9, relheight = .2, relx = .05, rely = .4, anchor = 'nw')
+image_entry_2.bind("<Button-1>", clear_search2)
 
 browse_button_1 = tk.Button(frame_1, text = BROWSE_BUTTON_TEXT_1, command = lambda: image_file_selector(image_entry_1))
 browse_button_1.place(relx = .69, rely = .1, relwidth = .25, relheight = .13, anchor = 'e')
