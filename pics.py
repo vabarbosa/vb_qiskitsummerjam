@@ -26,6 +26,7 @@ def pixelate(input_file_path, pixel_size):
 temp=pixelate("download.jpeg",60)
 temp=temp.convert('1')      # Convert to black&white
 A = array(temp)             # Creates an array, white pixels==True and black pixels==False
+print(A)
 new_A=empty((A.shape[0],A.shape[1]),None)    #New array with same size as A
 for i in range(len(A)):
     for j in range(len(A[i])):
@@ -34,7 +35,7 @@ for i in range(len(A)):
         else:
             new_A[i][j]=1
 
-
+print(len(new_A))
 shape = new_A.shape
 
 
