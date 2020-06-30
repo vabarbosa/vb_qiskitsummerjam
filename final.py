@@ -46,11 +46,6 @@ new_img = img.reshape((img.shape[0]*img.shape[1]), img.shape[2])
 new_img = new_img.transpose()
 
 
-
-
-
-
-
 img = np.asarray(A1)
 new_img = img.reshape((img.shape[0]*img.shape[1]), img.shape[2])
 new_img = new_img.transpose()
