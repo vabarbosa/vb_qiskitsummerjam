@@ -36,14 +36,18 @@ def run_quantum(file1, file2):
     plt.imsave('filename2.jpeg',A2, cmap=cm.gray)
 
     img = np.asarray(A1)
-    new_img = img.reshape((img.shape[0]*img.shape[1]), img.shape[2])
+    new_img = img.reshape(32, 32)
+    # new_img = img.reshape((img.shape[0]*img.shape[1]), img.shape[2])
     new_img = new_img.transpose()
 
-    print(new_img)
+    print(len(new_img[0]))
 
     img1 = np.asarray(A2)
-    new_img1 = img1.reshape((img1.shape[0]*img1.shape[1]), img1.shape[2])
+    new_img1 = img1.reshape(32, 32)
+    # new_img1 = img1.reshape((img1.shape[0]*img1.shape[1]), img1.shape[2])
     new_img1 = new_img1.transpose()
+
+    print(len(new_img1))
 
     # set up registers and program
     qr = QuantumRegister(15, 'qr')
@@ -51,12 +55,12 @@ def run_quantum(file1, file2):
     qc = QuantumCircuit(qr, cr)
 
     # rightmost eight (qu)bits have ')' = 00101001
-    double = np.zeros((3,100)) # final double array
+    double = np.zeros((16,16)) # final double array
 
-    print("Entering Double Loop")
+    print("Quantum Circuit Complete. Determining Pixel Values...")
 
-    for p in range(3):
-        for k in range(100):
+    for p in range(16):
+        for k in range(16):
             num_1 = bin(new_img[p][k])
             num_2 = bin(new_img1[p][k])
 
