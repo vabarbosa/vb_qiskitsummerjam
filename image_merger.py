@@ -1,11 +1,10 @@
-from PIL import Image
+from pil import Image
 from numpy import*
 import matplotlib.cm as cm
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
 sys.path.append("../../qiskit-sdk-py/")
-from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
 import math
 from qiskit import(
   QuantumCircuit,
@@ -83,11 +82,7 @@ def run_quantum(file1, file2):
                 total = abs(int(split,2)-int(split2,2))
                 double[p][k] = total
 
-    img = plt.imshow(double) # final image
-    plt.show()
-
-    img = plt.imshow(new_img)
-    plt.show()
-
+    # img = plt.imshow(double) # final image
+    plt.imsave('result.jpeg',double)
 
 
