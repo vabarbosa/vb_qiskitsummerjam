@@ -1,4 +1,4 @@
-from pil import Image
+from PIL import Image
 from numpy import*
 import matplotlib.cm as cm
 import numpy as np
@@ -6,15 +6,15 @@ import matplotlib.pyplot as plt
 import sys
 sys.path.append("../../qiskit-sdk-py/")
 import math
-from qiskit import(
-  QuantumCircuit,
-  execute)
+from qiskit import (
+    QuantumCircuit,
+    execute, QuantumRegister, ClassicalRegister, Aer)
 from qiskit import IBMQ
 
 # Loading your IBM Q account(s)
 provider = IBMQ.load_account()
 
-def pixelate(first_file, second_file, pixel_size):
+def pixelate(first_file, second_file, size):
     im1 = Image.open(first_file)
     im2 = Image.open(second_file)
 
@@ -31,7 +31,7 @@ def pixelate(first_file, second_file, pixel_size):
 def run_quantum(file1, file2):
     file_1 = file1
     file_2 = file2
-    size = 10
+    size = 16
     A1, A2 = pixelate(file_1, file_2, size)
     plt.imsave('filename2.jpeg',A2, cmap=cm.gray)
 
@@ -39,17 +39,21 @@ def run_quantum(file1, file2):
     new_img = img.reshape((img.shape[0]*img.shape[1]), img.shape[2])
     new_img = new_img.transpose()
 
+    print(new_img)
+
     img1 = np.asarray(A2)
     new_img1 = img1.reshape((img1.shape[0]*img1.shape[1]), img1.shape[2])
     new_img1 = new_img1.transpose()
 
     # set up registers and program
-    qr =  QuantumRegister(15, 'qr')
+    qr = QuantumRegister(15, 'qr')
     cr = ClassicalRegister(15,'cr')
     qc = QuantumCircuit(qr, cr)
 
     # rightmost eight (qu)bits have ')' = 00101001
     double = np.zeros((3,100)) # final double array
+
+    print("Entering Double Loop")
 
     for p in range(3):
         for k in range(100):

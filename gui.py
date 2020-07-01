@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk
 import image_merger as imgmgr
-from Pillow import Image, ImageTk
+from PIL import Image, ImageTk
 
 
 TITLE = "Quantum CV"
@@ -16,7 +16,7 @@ IMAGE_ENTRY_TEXT_2 = "Type in image 2's directory or use the browse button above
 
 def image_file_selector(entry):
     filename = filedialog.askopenfilename(initialdir="/D", title="Select image file",
-                                          filetypes=(("JPG", "*.jpg"), ("PNG", "*.png"), ("All Files", "*.*")))
+                                          filetypes=(("PNG", "*.png"), ("All Files", "*.*")))
     set_entrybox_text(filename, entry)
     return
 
@@ -35,8 +35,9 @@ def clear_search2(event):
         return None
 
 def run_merger():
-    image_dir_1 = browse_button_1.get()
-    image_dir_2 = browse_button_2.get()
+    print("Running...")
+    image_dir_1 = image_entry_1.get()
+    image_dir_2 = image_entry_2.get()
     imgmgr.run_quantum(image_dir_1, image_dir_2)
     result_load = Image.open("result.jpeg")
     result_label = tk.Label(frame_1, text = "Result", font = ('Helvetica', 14))
@@ -75,7 +76,7 @@ browse_button_1.place(relx = .69, rely = .05, relwidth = .25, relheight = .075, 
 browse_button_2 = tk.Button(frame_1, text = BROWSE_BUTTON_TEXT_2, command = lambda: image_file_selector(image_entry_2))
 browse_button_2.place(relx = .69, rely = .05, relwidth = .25, relheight = .075, anchor = 'w')
 
-run_button = tk.Button(frame_1, text = RUN_BUTTON_TEXT, command = lambda: run_merger)
+run_button = tk.Button(frame_1, text = RUN_BUTTON_TEXT, command = lambda: run_merger())
 run_button.place(relx = .5, rely = .2, relwidth = .25, relheight = .05, anchor = 'center')
 
 root.mainloop()
