@@ -10,9 +10,14 @@ Quantum Art is a program that uses Quantum Computing to generate pixel art. By u
 ### Instructions:
 
 Make sure to install all required dependencies into your Anaconda Environment:
-- Pillow
-- Tk
-- matplotlib
+- Python 3.xx
+- Pillow (PIL)
+- Matplotlib
+- Tkinter
+- Numpy
+- Sys
+- Math
+- Image_Merger
 - Qiskit (Requires IBM Quantum Experience setup. Can be done by inputting API key and running setup.py that is included).
 
-Next, run **gui.py**
+Next, run **gui.py**. Select images (16x16), and run!
