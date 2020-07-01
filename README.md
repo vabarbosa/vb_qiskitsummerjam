@@ -15,4 +15,4 @@ Make sure to install all required dependencies into your Anaconda Environment:
 - matplotlib
 - Qiskit (Requires IBM Quantum Experience setup. Can be done by inputting API key and running setup.py that is included).
 
-Next, run '''gui.py'''
+Next, run **gui.py**
