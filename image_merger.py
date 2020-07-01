@@ -9,7 +9,7 @@ from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
 import math
 from qiskit import(
   QuantumCircuit,
-  execute,
+  execute)
 from qiskit import IBMQ
 
 # Loading your IBM Q account(s)
@@ -27,66 +27,67 @@ def pixelate(first_file, second_file, pixel_size):
 
     return A1, A2
 
-file_1 = "download.png"
-file_2 = "download.png"
-size = 10
-A1, A2 = pixelate(file_1, file_2, size)
-plt.imsave('filename2.jpeg',A2, cmap=cm.gray)
+# Run the quantum script
 
-img = np.asarray(A1)
-new_img = img.reshape((img.shape[0]*img.shape[1]), img.shape[2])
-new_img = new_img.transpose()
+def run_quantum(file1, file2):
+    file_1 = file1
+    file_2 = file2
+    size = 10
+    A1, A2 = pixelate(file_1, file_2, size)
+    plt.imsave('filename2.jpeg',A2, cmap=cm.gray)
 
-img1 = np.asarray(A2)
-new_img1 = img1.reshape((img1.shape[0]*img1.shape[1]), img1.shape[2])
-new_img1 = new_img1.transpose()
+    img = np.asarray(A1)
+    new_img = img.reshape((img.shape[0]*img.shape[1]), img.shape[2])
+    new_img = new_img.transpose()
 
-# set up registers and program
-qr =  QuantumRegister(15, 'qr')
-cr = ClassicalRegister(15,'cr')
-qc = QuantumCircuit(qr, cr)
+    img1 = np.asarray(A2)
+    new_img1 = img1.reshape((img1.shape[0]*img1.shape[1]), img1.shape[2])
+    new_img1 = new_img1.transpose()
 
-# rightmost eight (qu)bits have ')' = 00101001
-double = np.zeros((3,100)) # final double array
+    # set up registers and program
+    qr =  QuantumRegister(15, 'qr')
+    cr = ClassicalRegister(15,'cr')
+    qc = QuantumCircuit(qr, cr)
 
-for p in range(3):
-    for k in range(100):
-        num_1 = bin(new_img[p][k])
-        num_2 = bin(new_img1[p][k])
+    # rightmost eight (qu)bits have ')' = 00101001
+    double = np.zeros((3,100)) # final double array
 
-        for i in range(len(str(num_1))):
-            if num_1[i] == str(1):
-                qc.x(qr[i])
-    
-        qc.h(qr[7]) # create superposition on 9
-        qc.cx(qr[7],qr[8]) # spread it to 8 with a cnot
-        
-        for i in range(len(str(num_2))):
-                    if num_2[i] == str(1):
-                        qc.x(qr[i+5])
-                
-        for j in range(15):
-            qc.measure(qr[j], cr[j])      
-                
-        simulator = Aer.get_backend('qasm_simulator')
-        job = execute(qc, simulator, shots=1)
-        results = job.result()
-        stats = results.get_counts(qc)
-        register_value = stats.keys()
+    for p in range(3):
+        for k in range(100):
+            num_1 = bin(new_img[p][k])
+            num_2 = bin(new_img1[p][k])
 
-        for x in register_value:
-            split = x[0:7]
-            split2 = x[7:15]
-            total = abs(int(split,2)-int(split2,2))
-            double[p][k] = total
+            for i in range(len(str(num_1))):
+                if num_1[i] == str(1):
+                    qc.x(qr[i])
 
-img = plt.imshow(double) # final image
-plt.show()
+            qc.h(qr[7]) # create superposition on 9
+            qc.cx(qr[7],qr[8]) # spread it to 8 with a cnot
 
-img = plt.imshow(new_img)
-plt.show()
+            for i in range(len(str(num_2))):
+                        if num_2[i] == str(1):
+                            qc.x(qr[i+5])
 
+            for j in range(15):
+                qc.measure(qr[j], cr[j])
 
+            simulator = Aer.get_backend('qasm_simulator')
+            job = execute(qc, simulator, shots=1)
+            results = job.result()
+            stats = results.get_counts(qc)
+            register_value = stats.keys()
+
+            for x in register_value:
+                split = x[0:7]
+                split2 = x[7:15]
+                total = abs(int(split,2)-int(split2,2))
+                double[p][k] = total
+
+    img = plt.imshow(double) # final image
+    plt.show()
+
+    img = plt.imshow(new_img)
+    plt.show()
 
 
 
